@@ -1,0 +1,175 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@model List<webAdmin.ViewModels.User>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="container-fluid p-0">
+
+	<h1 class="h3 mb-3">@Localizer["Admin List"]</h1>
+
+	<div class="row">
+		<div class="col-md-4 col-xl-12">
+			<div class="card">
+                <div class="card-body">
+                    <p>
+                        <a asp-action="Create" class="btn btn-pill btn-success">@Localizer["Create New"]</a>
+                    </p>
+                    <table id="datatables-reponsive" class="table table-bordered table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(x => x.GetEnumerator().Current.idx)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(x => x.GetEnumerator().Current.user_id)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(x => x.GetEnumerator().Current.name)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(x => x.GetEnumerator().Current.dept)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(x => x.GetEnumerator().Current.email)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(x => x.GetEnumerator().Current.status_name)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(x => x.GetEnumerator().Current.users_group_name)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(x => x.GetEnumerator().Current.block_reason)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(x => x.GetEnumerator().Current.blocked_date)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(x => x.GetEnumerator().Current.recent_pw_change_date)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(x => x.GetEnumerator().Current.recent_login_date)
+                                </th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model) {
+                            <tr>
+                                <td class="idx">
+                                    @item.idx
+                                </td>
+                                <td class="user_id">
+                                    @item.user_id
+                                </td>
+                                <td class="name">
+                                    @item.name
+                                </td>
+                                <td class="dept">
+                                    @item.dept
+                                </td>
+                                <td class="email">
+                                    @item.email
+                                </td>
+                                <td class="status_name">
+                                    @item.status_name
+                                </td>
+                                <td>
+                                    @item.users_group_name
+                                </td>
+                                <td>
+                                    @item.block_reason
+                                </td>
+                                <td>
+                                    @item.blocked_date
+                                </td>
+                                <td>
+                                    @item.recent_pw_change_date
+                                </td>
+                                <td>
+                                    @item.recent_login_date
+                                </td>
+                                <td class="table-action">
+                                    <a asp-action="Edit" asp-route-id="@item.idx"><i class="align-middle" data-feather="edit-2"></i></a>
+                                    <a asp-action="Delete" asp-route-id="@item.idx"><i class="align-middle" data-feather="trash"></i></a>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/datatables/datatables.min.js"></script>
+
+<script>
+    dataTableInit();
+
+	$("#datatables-reponsive").DataTable({
+        paging: true,
+        autoWidth: false,
+        order: [[0, 'desc']],
+        columnDefs : [
+            { 
+                className: "text-center", 
+                targets: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] 
+            }            
+        ]
+	});
+
+    $('#datatables-reponsive').on('page.dt', function() {
+        dataTableInit();
+    });
+
+    function dataTableInit() {
+        var table = $("#datatables-reponsive");
+        var thead = table.children().eq(0);
+        var tbody = table.children().eq(1);
+        var tbody_tr = tbody.children();
+        var tbody_tr_td = tbody_tr.children();
+
+        tbody_tr.each(function(i) {
+            console.log($(this).find(".status_name").text());
+
+            if ($(this).find(".status_name").text().trim() == "@Localizer["authenticated"]") {
+                $(this).find(".status_name").css('color', 'green');
+            }
+
+            if ($(this).find(".status_name").text().trim() == "@Localizer["unauthenticated"]") {
+                $(this).find(".status_name").css('color', 'orange');
+            }
+
+            if ($(this).find(".status_name").text().trim() == "@Localizer["blocked"]") {
+                $(this).find(".status_name").css('color', 'red');
+            }
+
+            if ($(this).find(".status_name").text().trim() == "@Localizer["withdrawn"]") {
+
+                $(this).find(".user_id").css('text-decoration', 'line-through');
+                $(this).find(".user_id").css('text-decoration-color', 'red');
+                $(this).find(".name").css('text-decoration', 'line-through');
+                $(this).find(".name").css('text-decoration-color', 'red');
+                $(this).find(".dept").css('text-decoration', 'line-through');
+                $(this).find(".dept").css('text-decoration-color', 'red');
+                $(this).find(".email").css('text-decoration', 'line-through');
+                $(this).find(".email").css('text-decoration-color', 'red');
+                $(this).find(".status_name").css('font-weight', 'bold');
+                $(this).find(".status_name").css('color', 'red');
+            }
+
+            var idx = $(this).find(".idx").text().trim();
+            var actionHtml = '<a href="/Admin/Edit/'+idx+'"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-edit-2 align-middle"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></a>'
+                            + '<a href="/Admin/Delete/'+idx+'"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash align-middle"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a>';
+
+
+            $(this).find(".table-action").html(actionHtml);
+        });
+    }
+    //alert(tbody_tr_td.eq(5).text());
+</script>

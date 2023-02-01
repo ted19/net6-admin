@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+이 파일은 웹 프로젝트의 게시/패키지 프로세스에서 사용됩니다. 이 MSBuild 파일을 편집하여 이 프로세스의 동작을
+사용자 지정할 수 있습니다. 이에 대한 자세한 내용은 https://go.microsoft.com/fwlink/?LinkID=208121을 참조하세요. 
+-->
+<Project>
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <EncryptedPassword>AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAWD8Hd2Q6CkaTOUn46VvOigAAAAACAAAAAAADZgAAwAAAABAAAACRjLOWrjP7MWp1ruvEGAbDAAAAAASAAACgAAAAEAAAAGYiJ/SA7RC+i/p8C/g5PfEgAAAA1tEQh2wVgbxixLfqXbeIYSUH3QGK7MLxCpdiHxfwcPwUAAAAos2CcTazjeZJTwChODnqJZ7DeYk=</EncryptedPassword>
+    <History>True|2022-11-16T06:10:46.7136422Z;True|2022-11-15T20:07:54.0605954+09:00;True|2022-11-15T19:46:33.1501631+09:00;True|2022-11-15T17:00:42.4691123+09:00;True|2022-11-15T16:25:28.2208910+09:00;True|2022-11-15T16:24:33.2063851+09:00;True|2022-11-15T16:22:26.9894039+09:00;True|2022-11-15T16:14:18.0890158+09:00;True|2022-11-10T15:19:59.1673154+09:00;False|2022-11-10T15:19:13.9683193+09:00;False|2022-11-10T15:18:48.1073408+09:00;False|2022-11-10T15:18:37.0194654+09:00;False|2022-11-10T15:17:24.8439322+09:00;True|2022-11-08T17:30:02.0974410+09:00;False|2022-11-08T17:28:26.1329659+09:00;False|2022-11-08T17:27:51.4944177+09:00;</History>
+  </PropertyGroup>
+</Project>

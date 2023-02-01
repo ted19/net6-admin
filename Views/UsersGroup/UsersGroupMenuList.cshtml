@@ -1,0 +1,333 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@model IEnumerable<webAdmin.ViewModels.UsersGroupMenu>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_BlankLayout";
+}
+<input type="hidden" id="users_group_idx" value='@ViewData["UsersGroupIdx"]'/>
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.idx)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.name)
+			</th>
+            <th>
+				@Html.DisplayNameFor(model => model.controller)
+			</th>
+            <th>
+				@Html.DisplayNameFor(model => model.action)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.allow_type)
+			</th>
+			<th>
+				Actions
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model) {
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.idx)
+			</td>
+			<td>
+                <div class="actions_request_value">
+					<span>@Html.DisplayFor(modelItem => item.name)</span>
+                </div>
+                <div class="actions_response_value">
+					<input type="text" id="edit_group_menu_name_form" class="form-control form-control-lg border-success" value="@Html.DisplayFor(modelItem => item.name)" maxlength='50'/>
+                    <span class="edit_group_menu_name_form_validate text-danger"></span>
+                </div>
+			</td>
+			<td>
+                <div class="actions_request_value">
+					<span>@Html.DisplayFor(modelItem => item.controller)</span>
+                </div>
+                <div class="actions_response_value">
+					<input type="text" id="edit_group_controller_form" class="form-control form-control-lg border-success" value="@Html.DisplayFor(modelItem => item.controller)" maxlength='50'/>
+                    <span class="edit_group_controller_form_validate text-danger"></span>
+                </div>
+			</td>
+            <td>
+                <div class="actions_request_value">
+					<span>@Html.DisplayFor(modelItem => item.action)</span>
+                </div>
+                <div class="actions_response_value">
+					<input type="text" id="edit_group_action_form" class="form-control form-control-lg border-success" value="@Html.DisplayFor(modelItem => item.action)" maxlength='50'/>
+                    <span class="edit_group_action_form_validate text-danger"></span>
+                </div>
+			</td>
+			<td>
+                <div class="actions_request_value">
+                    <span>@(item.allow_type == "r" ? @Localizer["Read"]: @Localizer["Write"])</span>
+                </div>
+                <div class="actions_response_value">
+                    @Html.DropDownList("select_allow_type", new List<SelectListItem>
+                    {
+                        new SelectListItem{ Text="Read", Value = "r" },
+                        new SelectListItem{ Text="Write", Value = "w" },
+                    }, new { @class = "form-select form-control-lg border-success", id = "edit_group_allow_type_form" })
+                </div>
+            </td>
+            <td class="table-action">
+                <div class="actions_request_icon">
+                    <a class="edit_group_menu"><i class="align-middle" data-feather="edit-2"></i></a>
+                    <a class="remove_group_menu"><i class="align-middle" data-feather="trash"></i></a>
+                </div>
+                <div class="actions_response_icon">
+                    <a class="confirm_group_menu"><i class="align-middle" data-feather="check"></i></a>
+                    <a class="refresh_group_menu"><i class="align-middle" data-feather="refresh-cw"></i></a>
+                </div>
+            </td>
+        </tr>
+		}
+	</tbody>
+</table>
+<div id="users_group_menu_form"></div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script type="text/javascript">
+
+    $('.actions_response_icon').hide();
+    $('.actions_response_value').hide();
+
+    var myModal = new bootstrap.Modal(document.getElementById('sizedModalSm'), {
+        keyboard: false
+    });
+
+	$("a[class='edit_group_menu']").click( function() {    
+        
+        var tr = $(this).parent().parent().parent();
+        var td = tr.children();
+        groupInput(td, 1);
+        groupInput(td, 2);
+        groupInput(td, 3);
+        groupInput(td, 4);
+
+        td.eq(5).find('.actions_request_icon').hide();
+        td.eq(5).find('.actions_response_icon').show();
+    });
+
+    $("a[class='remove_group_menu']").click(function() {
+
+        var tr = $(this).parent().parent().parent();
+        var td = tr.children();
+        
+        var idx = $.trim(td.eq(0).text());
+        var group_menu = $.trim(td.eq(1).find('.actions_response_value').children().val()) + ' DELETE';
+        
+        var url = "/UsersGroup/DeleteGroupMenu/"+idx;
+        var formData = new FormData();
+
+        $('#delete_group_name').html(group_menu);
+        $('#delete_group_ment').html('When a menu is deleted, the menu set in the users auth is also deleted.');
+        $('#delete_group_idx').val(idx);
+        $('#delete_group_type').val('group_menu');
+
+        myModal.show();
+    });
+
+    $("a[class='confirm_group_menu']").click(function() {
+
+        var tr = $(this).parent().parent().parent();
+        var td = tr.children();
+        
+        var idx = $.trim(td.eq(0).text());
+        var group_menu_name = $.trim(td.eq(1).find('.actions_response_value').children().val());
+        var group_menu_controller = $.trim(td.eq(2).find('.actions_response_value').children().val());
+        var group_menu_action = $.trim(td.eq(3).find('.actions_response_value').children().val());
+        var group_menu_allow_type = td.eq(4).find('.actions_response_value').children().val();
+        
+        if (group_menu_name == '') {
+            td.eq(1).find('.actions_response_value').find('.edit_group_menu_name_form_validate').text('The Name field is required.');
+            return;
+        }
+
+        if (group_menu_name.length < 2) {
+            td.eq(1).find('.actions_response_value').find('.edit_group_menu_name_form_validate').text('Name length must be between 2 and 50.');
+            return;
+        };
+
+        if (group_menu_name.length > 50) {
+            td.eq(1).find('.actions_response_value').find('.edit_group_menu_name_form_validate').text('Please enter no more than 50 characters');
+            return;
+        };
+
+        if (group_menu_controller == '') {
+            td.eq(2).find('.actions_response_value').find('.edit_group_menu_controller_form_validate').text('The Controller field is required.');
+            return;
+        }
+
+        if (group_menu_controller.length < 2) {
+            td.eq(2).find('.actions_response_value').find('.edit_group_menu_controller_form_validate').text('Controller length must be between 2 and 50.');
+            return;
+        };
+
+        if (group_menu_controller.length > 50) {
+            td.eq(2).find('.actions_response_value').find('.edit_group_menu_controller_form_validate').text('Please enter no more than 50 characters');
+            return;
+        };
+
+        if (group_menu_action == '') {
+            td.eq(3).find('.actions_response_value').find('.edit_group_menu_action_form_validate').text('The Action field is required.');
+            return;
+        }
+
+        if (group_menu_action.length < 2) {
+            td.eq(3).find('.actions_response_value').find('.edit_group_menu_action_form_validate').text('Action length must be between 2 and 50.');
+            return;
+        };
+
+        if (group_menu_action.length > 50) {
+            td.eq(3).find('.actions_response_value').find('.edit_group_menu_action_form_validate').text('Please enter no more than 50 characters');
+            return;
+        };
+
+        var url = "/UsersGroup/EditGroupMenu/"+idx;
+        var formData = new FormData();
+
+        formData.append("idx", idx);
+        formData.append("users_group_idx", $('#users_group_idx').val());
+        formData.append("name", group_menu_name);
+        formData.append("controller", group_menu_controller);
+        formData.append("action", group_menu_action);
+        formData.append("allow_type", group_menu_allow_type);
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            processData: false,
+            contentType: false,
+            error: function (err) {
+                toastr.error(err.statusText);
+                console.log(err);
+            }
+        }).done(function (response) {
+            console.log(response);
+
+            if (response.status === "success") {
+                toastr.success(response.message);
+                usersGroupMenuListView($('#users_group_idx').val());
+            } else {
+                toastr.error(response.message);
+            }
+        });
+    });
+
+    function groupInput(td, i) {
+
+        var max_len = 50;
+        var menu_name = 'menu_name';
+        
+        td.eq(i).find('.actions_request_value').hide();
+        td.eq(i).find('.actions_response_value').show();
+        td.eq(i).find('.actions_response_value').find('.edit_group_menu_name_form_validate').text('');
+
+        if (i != 4) {
+            td.eq(i).find('.actions_response_value').children().val(td.eq(i).find('.actions_request_value').children().text());
+        } else {
+            td.eq(i).find('.actions_response_value option:eq(0)').replaceWith("<option value='r'>@Localizer["Read"]</option>");
+            td.eq(i).find('.actions_response_value option:eq(1)').replaceWith("<option value='w'>@Localizer["Write"]</option>");
+
+            var allow_type_val = 'r';
+
+            if (td.eq(i).find('.actions_request_value').children().text() == "@Localizer["Write"]") {
+                allow_type_val = 'w';
+            }
+
+            td.eq(i).find('.actions_response_value').children().val(allow_type_val);
+        }
+
+        var len = td.eq(i).find('.actions_response_value').children().val().length;
+        td.eq(i).find('.actions_response_value').children().focus();
+
+        if (i != 4) {
+            td.eq(i).find('.actions_response_value').children()[0].setSelectionRange(len, len);
+
+            td.eq(i).find('.actions_response_value').children().keyup(function(e) {
+                td.eq(i).find('.actions_response_value').find('.edit_group_' + menu_name + '_form_validate').text('');
+
+                let content = $(this).val();
+
+                if (i == 1) {
+                    max_len = 50;
+                    menu_name = 'menu_name';
+                } else if (i == 2) {
+                    menu_name = 'controller';
+                } else if (i == 3) {
+                    menu_name = 'action';
+                } else if (i == 4) {
+                    menu_name = 'allow_type';
+                }
+
+                if (content.length > max_len) {
+                    $(this).val($(this).val().substring(0, max_len));
+                    td.eq(i).find('.actions_response_value').find('.edit_group_' + menu_name + '_form_validate').text('Please enter no more than ' + max_len + ' characters');
+                };
+
+                if (content.length < 2) {
+                    console.log(menu_name);
+                    td.eq(i).find('.actions_response_value').find('.edit_group_' + menu_name + '_form_validate').text('Name length must be between 2 and ' + max_len + '.');
+                };
+
+                if (content.length == 0) {
+                    console.log(menu_name);
+                    td.eq(i).find('.actions_response_value').find('.edit_group_' + menu_name + '_form_validate').text('The Name field id required.');
+                };
+            });
+
+            td.eq(i).find('.actions_response_value').children().focusout(function() {
+                td.eq(i).find('.actions_response_value').find('.edit_group_' + menu_name + '_form_validate').text('');
+            });
+        }
+    }
+
+    $("a[class='refresh_group_menu']").click( function() {    
+    
+        var tr = $(this).parent().parent().parent();    
+        var td = tr.children();
+        
+        td.eq(1).find('.actions_request_value').show();
+        td.eq(1).find('.actions_response_value').hide();
+        td.eq(2).find('.actions_request_value').show();
+        td.eq(2).find('.actions_response_value').hide();
+        td.eq(3).find('.actions_request_value').show();
+        td.eq(3).find('.actions_response_value').hide();
+        td.eq(4).find('.actions_request_value').show();
+        td.eq(4).find('.actions_response_value').hide();
+
+        td.eq(5).find('.actions_request_icon').show();
+        td.eq(5).find('.actions_response_icon').hide();
+    });
+
+    function usersGroupMenuFormView() {
+
+        $.ajax({
+            url: '/UsersGroup/UsersGroupMenuForm',
+            type: 'POST',
+            timeout: 3000,
+            async: true,
+            data: {},
+            error: function (err) {
+                alert(
+                    "errorCode : " + err.status + "\n"
+                    + "errorText : " + err.statusText + "\n"
+                    + "Result : " + err
+                );
+            },
+            success: function (data) {
+                $("#users_group_menu_form").html(data);
+            }
+        });
+    }
+
+    usersGroupMenuFormView();
+</script>

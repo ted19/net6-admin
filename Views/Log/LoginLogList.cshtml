@@ -1,0 +1,221 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@model IEnumerable<webAdmin.ViewModels.LoginLog>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    .table thead tr th {
+        padding: 10px 10px !important;
+        text-align: center;
+    }
+    .table td {
+        font-size: 13px;
+        padding: 5px 5px !important;
+    }
+    .align-right{text-align:right;max-width:80px} .align-left{text-align:left;max-width:80px} .align-center{text-align:center;max-width:80px}
+</style>
+<div class="container-fluid p-0">
+	<h1 class="h3 mb-3">@Localizer["Login Log"]</h1>
+	<div class="row">
+		<div class="col-md-12 col-xl-12">
+			<div class="card">
+                <!--
+                <div class="card-header">
+					<h5 class="card-title"></h5>
+					<h6 class="card-subtitle text-muted"></h6>
+				</div>
+                -->
+                <div class="card-body">
+                    <div class="input-group mb-3">
+						<select class="form-select" id="search_type">
+							<option value="">Select...</option>
+							<option value="user_idx">@Localizer["Admin idx"]</option>
+							<option value="user_id">@Localizer["Admin id"]</option>
+						</select>
+						<input type="text" class="form-control" id="search_value" name="search_value" placeholder="Search for...">
+                        <input type="text" class="form-control flatpickr-range" id="search_date"/>
+						<button class="btn btn-secondary" type="button" id="search_submit">@Localizer["Search"]</button>
+					</div>
+				    <table id="datatable-ajax" class="table table-bordered table-striped" style="width:100%">
+					    <thead>
+						    <tr>
+							    <th>
+								    @Html.DisplayNameFor(model => model.idx)
+							    </th>
+							    <th>
+								    @Html.DisplayNameFor(model => model.user_idx)
+							    </th>
+                                <th>
+								    @Html.DisplayNameFor(model => model.user_id)
+							    </th>
+                                <th>
+								    @Html.DisplayNameFor(model => model.login_ip)
+							    </th>
+                                <th>
+								    @Html.DisplayNameFor(model => model.log_date)
+							    </th>
+                                <th>
+								    @Html.DisplayNameFor(model => model.success_yn)
+							    </th>
+						    </tr>
+					    </thead>
+				    </table>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/datatables/datatables.min.js"></script>
+<script src="~/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script type="text/javascript">
+
+function isNumeric(num, opt) {  
+    // 좌우 trim(공백제거)을 해준다.  
+    num = String(num).replace(/^\s+|\s+$/g, "");   
+
+    if (typeof opt == "undefined" || opt == "1") {    
+	    // 모든 10진수 (부호 선택, 자릿수구분기호 선택, 소수점 선택)    
+	    var regex = /^[+\-]?(([1-9][0-9]{0,2}(,[0-9]{3})*)|[0-9]+){1}(\.[0-9]+)?$/g;  
+    } else if (opt == "2") {    
+	    // 부호 미사용, 자릿수구분기호 선택, 소수점 선택    
+	    var regex = /^(([1-9][0-9]{0,2}(,[0-9]{3})*)|[0-9]+){1}(\.[0-9]+)?$/g;  
+    } else if (opt == "3") {    
+	    // 부호 미사용, 자릿수구분기호 미사용, 소수점 선택    
+	    var regex = /^[0-9]+(\.[0-9]+)?$/g;  
+    } else {    
+	    // only 숫자만(부호 미사용, 자릿수구분기호 미사용, 소수점 미사용)    
+	    var regex = /^[0-9]$/g;  
+    }   
+
+    return isNaN(num) ? false : true;  
+}
+
+function reloadTable() {
+    var search_type = $("#search_type").val();
+    var search_value = $("#search_value").val();
+	var search_date = $("#search_date").val();
+    var table = $('#datatable-ajax').DataTable();
+
+    if (search_type != '') {
+        if (search_value == '') {
+            toastr.error("Please input search value.");
+            $("#search_value").val('');
+        }
+
+        if (search_type == 'user_idx') {
+
+            if ( isNumeric(search_value, 4) == false ) {
+
+                toastr.error("Please input numeric value.");
+                return;
+            }
+
+        } else if (search_type == 'user_id') {
+
+        }
+    } else {
+        if (search_value != '') {
+            toastr.error("Please select search type.");
+            $("#search_value").val('');
+        }
+    }
+
+    table.destroy();
+	datatableInit(search_type, search_value, search_date);
+}
+
+$(document).ready(function() {   
+    $("#search_submit").click(function javascript_onclick(){
+        reloadTable();
+    });
+
+    $("#search_type").on("change", function(){
+        
+        select_value = $("option:selected", this).attr("value");
+
+        if (select_value == "user_idx") {
+            $('input[name=search_value]').prop('type', "number");
+        } else {
+            $('input[name=search_value]').prop('type', "text");
+        }
+        
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+	// Flatpickr
+    var start_date = new Date();
+    var end_date = new Date();
+    start_date.setDate(end_date.getDate() - 30 * 6);
+   
+    console.log(start_date);
+	
+	flatpickr(".flatpickr-range", {
+		mode: "range",
+		dateFormat: "Y-m-d",
+        allowInput: true,
+        defaultDate: [start_date, end_date]
+	});
+    
+    datatableInit('', '%20', $("#search_date").val());
+});
+
+function datatableInit(search_type = '', search_value = '', search_date = '') {
+
+    var table = $('#datatable-ajax');
+    var orderColumn = [ "idx", "user_idx", "user_id", "login_ip", "log_date", "success_yn"]; 
+
+	if(search_value == '')
+		search_value = '%20';
+
+    table.DataTable({  
+    	autoWidth: false,
+		ordering: true,
+		searching: false,
+    	processing: true,
+    	serverSide: true,
+    	order: [[0, 'desc']],
+    	ajax: {
+            url: '/Log/LoginLogDataList',
+            type: 'POST',
+        	data: function(d) {             
+        		d.search_type = search_type;
+        		d.search_value = search_value;
+        		d.search_date = search_date;
+        		d.column_name = orderColumn[table.DataTable().order()[0][0]];
+        		d.column_order = table.DataTable().order()[0][1];
+        	}
+        },
+        columns: [
+            { data: 'idx' },
+            { data: 'user_idx' },
+            { data: 'user_id' },
+            { data: 'login_ip' },
+            { data: 'log_date' },
+            { data: 'success_yn' }
+        ],
+        columnDefs : [
+            { 	
+                width: "5%", 
+                targets: [0, 1, 2, 5] 
+        	},
+        	{ 	
+                width: "10%", 
+                targets: [3, 4]
+        	},        	
+            { 
+                className: "align-center", 
+                targets: [0, 1, 2, 3, 4, 5] 
+            }            
+        ]
+    });
+}
+</script>

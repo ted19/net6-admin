@@ -1,0 +1,7 @@
+E:\project\Dev\webAdmin\obj\Debug\net6.0\PubTmp\Out\webAdmin.exe
+E:\project\Dev\webAdmin\obj\Debug\net6.0\PubTmp\Out\appsettings.Development.json
+E:\project\Dev\webAdmin\obj\Debug\net6.0\PubTmp\Out\appsettings.json
+E:\project\Dev\webAdmin\obj\Debug\net6.0\PubTmp\Out\webAdmin.dll
+E:\project\Dev\webAdmin\obj\Debug\net6.0\PubTmp\Out\webAdmin.deps.json
+E:\project\Dev\webAdmin\obj\Debug\net6.0\PubTmp\Out\webAdmin.runtimeconfig.json
+E:\project\Dev\webAdmin\obj\Debug\net6.0\PubTmp\Out\webAdmin.pdb

@@ -1,0 +1,81 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@model webAdmin.ViewModels.UsersGroup
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_BlankLayout";
+}
+<form id="CreateGroupForm" asp-controller="UsersGroup" asp-action="CreateGroup">
+	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3">
+        <label class="form-check form-check-inline">
+			<input class="form-check-input" type="checkbox" value="option">
+			<span class="form-check-label">
+				@Localizer["Copy authority group"]
+			</span>
+		</label>
+        <br/><span id="copyAuthGroup" class="text-danger"></span>
+    </div>
+	<div class="mb-3">
+		<input asp-for="name" id="name" class="form-control form-control-lg" placeholder="Enter name" />
+		<span asp-validation-for="name" class="text-danger"></span>
+	</div>
+	<div class="text-center mt-3">
+		<input type="button" name="AddGroup" value="@Localizer["Add group"]" class="btn btn-lg btn-primary" />
+	</div>
+</form>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script type="text/javascript">
+
+    $('.form-check-input').click(function(){
+		var checked = $('.form-check-input').is(':checked');
+		
+		if(!checked)
+			$("#copyAuthGroup").html("");
+	});
+
+    $("input[name='AddGroup']").on("click", function () {
+
+        if ($(".form-check-input").is(':checked')) {
+            if (activeIdx == 0) {
+                $("#copyAuthGroup").html("Select a group to copy.");
+            }
+        } else {
+            activeIdx = 0;
+        }
+
+        var url = $("#CreateGroupForm").attr("action");
+        var formData = new FormData();
+
+        formData.append("name", $("#name").val());
+        formData.append("group_idx", activeIdx);
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            processData: false,
+            contentType: false,
+            error: function (err) {
+                toastr.error(err.statusText);
+                console.log(err);
+            }
+        }).done(function (response) {
+            console.log(response);
+
+            if (response.status === "success") {
+                toastr.success(response.message);
+                usersGroupView();
+            } else {
+                toastr.error(response.message);
+            }
+        });
+
+    });
+</script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

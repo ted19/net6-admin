@@ -1,0 +1,143 @@
+﻿@model webAdmin.ViewModels.SignIn
+
+@{
+    ViewData["Title"] = "SignIn";
+	Layout = "_BasicLayout";
+}
+
+<div class="container d-flex flex-column">
+	<div class="row vh-100">
+		<div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+			<div class="d-table-cell align-middle">
+
+				<div class="text-center mt-4">
+					<h1 class="h2">Admin</h1>
+					<p class="lead">
+						Sign in to your account to continue
+					</p>
+				</div>
+
+				<div class="card">
+					<div class="card-body">
+						<div class="m-sm-4">
+							<div class="text-center">
+								<img src="~/img/logos/main_logo.png" alt="4:33" class="img-fluid rounded" width="132" height="132" />
+							</div>
+							<form asp-action="SignIn" asp-route-returnUrl="@ViewData["ReturnUrl"]" id="SignIn">
+								<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+								<div class="mb-3">
+									<label asp-for="user_id" class="form-label"></label>
+									<input asp-for="user_id" class="form-control form-control-lg" placeholder="Enter your id" id="user_id" />
+									<span asp-validation-for="user_id" class="text-danger"></span>
+								</div>
+								<div class="mb-3">
+									<label asp-for="user_pw" class="form-label"></label>
+									<input asp-for="user_pw" class="form-control form-control-lg" type="password" placeholder="Enter your password" id="user_pw"/>
+									<span asp-validation-for="user_pw" class="text-danger" id="user_pw_validation"></span>
+									<br/>
+									<small>
+										<a href="~/Users/ResetPassword">Forgot password?</a> <br/>
+										<a href="~/Users/SignUp">Sign up</a>
+									</small>
+								</div>
+								<div class="text-center mt-3">
+									<input type="button" name="SignIn" value="Sign in" class="btn btn-lg btn-primary" />
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!-- BEGIN  modal -->
+<div class="modal fade" id="sizedModalSm" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Sign in</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body m-3">
+                <h1 id="delete_group_name"></h1>
+				<p class="mb-0" id="sign_in_ment"></p>
+			</div>
+			<div class="modal-footer justify-content-center" id="modal_middle_footer">
+				<a href="~/Users/ResetPassword" type="button" class="btn btn-info mx-auto d-block">password reset</a>
+			</div>
+			<div class="modal-footer" id="modal_footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- END  modal -->
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+	$("#modal_footer").hide();
+
+	var myModal = new bootstrap.Modal(document.getElementById('sizedModalSm'), {
+        keyboard: false
+    });
+
+	$('input[id="user_pw"]').keydown(function() {
+		if (event.keyCode === 13) {
+            signIn();
+		}
+	});
+
+    $("input[name='SignIn']").on("click", function () {
+        signIn();
+    });
+
+	function signIn() {
+
+	    var url = $("#SignIn").attr("action");
+        var formData = new FormData();
+
+        formData.append("user_id", $("#user_id").val());
+		formData.append("user_pw", $("#user_pw").val());
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            processData: false,
+            contentType: false,
+            error: function (err) {
+                console.log(err);
+            }
+        }).done(function (response) {
+            //console.log(response);
+
+            if (response.status === "success") {
+
+                location.href = response.returnUrl;
+
+            } else if (response.status === "error") {
+
+                if (response.message != "") {
+                    $("#sign_in_ment").html(response.message);
+                    myModal.show();
+                }
+            } else if (response.status == "unauthenticated" || response.status == "withdrawn" || response.status == "blocked") {
+				if (response.message != "") {
+                    $("#sign_in_ment").html(response.message);
+                    $("#modal_middle_footer").hide();
+					$("#modal_footer").show();
+					
+                    myModal.show();
+                }
+			}
+        });
+	}
+</script>

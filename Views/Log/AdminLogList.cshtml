@@ -1,0 +1,291 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@model IEnumerable<webAdmin.ViewModels.AdminLog>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    .table thead tr th {
+        padding: 10px 10px !important;
+        text-align: center;
+    }
+    .table td {
+        font-size: 13px;
+        padding: 5px 5px !important;
+    }
+    .align-right{text-align:right;max-width:80px} .align-left{text-align:left;max-width:80px} .align-center{text-align:center;max-width:80px}
+</style>
+<!-- CSS -->
+
+<div class="container-fluid p-0">
+	<h1 class="h3 mb-3">@Localizer["Admin Log"]</h1>
+	<div class="row">
+		<div class="col-md-12 col-xl-12">
+			<div class="card">
+                <!--
+                <div class="card-header">
+					<h5 class="card-title"></h5>
+					<h6 class="card-subtitle text-muted"></h6>
+				</div>
+                -->
+                <div class="card-body">
+                    <div class="input-group mb-3">
+						<select class="form-select" id="search_type">
+							<option value="">Select...</option>
+							<option value="user_idx">@Localizer["Admin idx"]</option>
+							<option value="user_id">@Localizer["Admin id"]</option>
+						</select>
+						<input type="text" class="form-control" id="search_value" name="search_value" placeholder="Search for...">
+                        <input type="text" class="form-control flatpickr-range" id="search_date"/>
+						<button class="btn btn-secondary" type="button" id="search_submit">@Localizer["Search"]</button>
+					</div>
+				    <table id="datatable-ajax" class="table table-bordered table-striped" style="width:100%">
+					    <thead>
+						    <tr>
+							    <th>
+								    @Html.DisplayNameFor(model => model.idx)
+							    </th>
+							    <th>
+								    @Html.DisplayNameFor(model => model.user_idx)
+							    </th>
+                                <th>
+								    @Html.DisplayNameFor(model => model.user_id)
+							    </th>                                
+                                <th>
+								    @Html.DisplayNameFor(model => model.user_ip)
+							    </th>
+                                <th>
+								    @Html.DisplayNameFor(model => model.controller)
+							    </th>
+                                <th>
+								    @Html.DisplayNameFor(model => model.action)
+							    </th>
+                                <th>
+								    @Html.DisplayNameFor(model => model.regist_date)
+							    </th>
+                                <th>
+								    @Localizer["Detail view"]
+							    </th>
+						    </tr>
+					    </thead>
+				    </table>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="centeredModalPrimary" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="log_idx"></h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body m-3">
+				<p class="mb-0" id="log_body"></p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/datatables/datatables.min.js"></script>
+<script src="~/lib/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script type="text/javascript">
+
+    var myModal;
+    
+    $(document).ready(function() {   
+        $("#search_submit").click(function javascript_onclick(){
+            reloadTable();
+        });
+
+        $("#search_type").on("change", function(){
+        
+            select_value = $("option:selected", this).attr("value");
+
+            if (select_value == "user_idx") {
+                $('input[name=search_value]').prop('type', "number");
+            } else {
+                $('input[name=search_value]').prop('type', "text");
+            }
+        
+        });
+
+        myModal = new bootstrap.Modal(document.getElementById('centeredModalPrimary'), {
+            keyboard: false
+        });
+    });
+
+    function isNumeric(num, opt) {  
+        // 좌우 trim(공백제거)을 해준다.  
+        num = String(num).replace(/^\s+|\s+$/g, "");   
+
+        if (typeof opt == "undefined" || opt == "1") {    
+	        // 모든 10진수 (부호 선택, 자릿수구분기호 선택, 소수점 선택)    
+	        var regex = /^[+\-]?(([1-9][0-9]{0,2}(,[0-9]{3})*)|[0-9]+){1}(\.[0-9]+)?$/g;  
+        } else if (opt == "2") {    
+	        // 부호 미사용, 자릿수구분기호 선택, 소수점 선택    
+	        var regex = /^(([1-9][0-9]{0,2}(,[0-9]{3})*)|[0-9]+){1}(\.[0-9]+)?$/g;  
+        } else if (opt == "3") {    
+	        // 부호 미사용, 자릿수구분기호 미사용, 소수점 선택    
+	        var regex = /^[0-9]+(\.[0-9]+)?$/g;  
+        } else {    
+	        // only 숫자만(부호 미사용, 자릿수구분기호 미사용, 소수점 미사용)    
+	        var regex = /^[0-9]$/g;  
+        }   
+
+        return isNaN(num) ? false : true;  
+    }
+
+    function reloadTable() {
+        var search_type = $("#search_type").val();
+        var search_value = $("#search_value").val();
+	    var search_date = $("#search_date").val();
+        var table = $('#datatable-ajax').DataTable();
+
+        if (search_type != '') {
+            if (search_value == '') {
+                toastr.error("Please input search value.");
+                $("#search_value").val('');
+            }
+
+            if (search_type == 'user_idx') {
+
+                if ( isNumeric(search_value, 4) == false ) {
+                    toastr.error("Please input numeric value.");
+                    return;
+                }
+
+            } else if (search_type == 'user_id') {
+
+            }
+        } else {
+            if (search_value != '') {
+                toastr.error("Please select search type.");
+                $("#search_value").val('');
+            }
+        }
+
+        table.destroy();
+	    datatableInit(search_type, search_value, search_date);
+    }
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+	    // Flatpickr
+        var start_date = new Date();
+        var end_date = new Date();
+        start_date.setDate(end_date.getDate() - 30 * 6);
+   
+        console.log(start_date);
+	
+	    flatpickr(".flatpickr-range", {
+		    mode: "range",
+		    dateFormat: "Y-m-d",
+            allowInput: true,
+            defaultDate: [start_date, end_date]
+	    });
+    
+        datatableInit('', '%20', $("#search_date").val());
+    });
+
+
+    function datatableInit(search_type = '', search_value = '', search_date = '') {
+
+        var table = $('#datatable-ajax');
+        var orderColumn = [ "idx", "user_idx", "user_id", "user_ip", "controller", "action", "regist_date", "detail_view" ]; 
+
+	    if(search_value == '')
+		    search_value = '%20';
+
+        table.DataTable({  
+    	    autoWidth: false,
+		    ordering: true,
+		    searching: false,
+    	    processing: true,
+    	    serverSide: true,
+    	    order: [[0, 'desc']],
+    	    ajax: {
+                url: '/Log/AdminLogDataList',
+                type: 'POST',
+        	    data: function(d) {             
+        		    d.search_type = search_type;
+        		    d.search_value = search_value;
+        		    d.search_date = search_date;
+        		    d.column_name = orderColumn[table.DataTable().order()[0][0]];
+        		    d.column_order = table.DataTable().order()[0][1];
+        	    }
+            },
+            columns: [
+                { data: 'idx' },
+                { data: 'user_idx' },
+                { data: 'user_id' },
+                { data: 'user_ip' },
+                { data: 'controller' },
+                { data: 'action' },
+                { data: 'regist_date' },
+                { data: 'detail_view', orderable: false},
+            ],
+            columnDefs : [
+                { 	
+                	width: "5%", 
+                	targets: [0] 
+        	 	},
+            	{ 	
+                	width: "10%", 
+                	targets: [1, 2] 
+        	 	},
+        	 	{ 	
+                	width: "20%", 
+                	targets: [3, 6]
+        	 	},
+            	{ 
+                	className: "align-center", 
+                	targets: [0, 1, 2, 3, 4, 5, 6, 7] 
+            	},
+            	{ 
+                	className: "align-right", 
+                	targets: [4] 
+            	}
+        	]
+        });
+    }
+
+    $(document).on('click', '#detail_view', function () {
+    	btn = $(this);
+        var tr = btn.parent().parent();
+        var td = tr.children();
+        var idx = td.eq(0).text();
+
+    	var diff_data = '';
+
+        var formData = new FormData();
+        formData.append("idx", idx);
+    	
+        $.ajax({
+            type: 'POST',
+            url: "/Log/AdminLogData",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: 'html',
+            error: function (err) {
+                console.log(err);
+            }
+        }).done(function (response) {
+            //$("#myDiff").html(response);
+            $("#log_idx").html("#" + idx);
+            $("#log_body").html(response);
+            myModal.show();
+        });
+	});
+</script>

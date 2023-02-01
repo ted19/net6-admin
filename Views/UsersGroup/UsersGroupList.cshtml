@@ -1,0 +1,372 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@model IEnumerable<webAdmin.ViewModels.UsersGroup>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_BlankLayout";
+}
+
+<div class="container-fluid p-0">
+
+	<h1 class="h3 mb-3"></h1>
+
+	<div class="row">
+		<div class="col-md-4 col-xl-3">
+			<div class="card">
+                <div class="card-body">
+				    <table class="table">
+					    <thead>
+						    <tr>
+							    <th>
+								    @Html.DisplayNameFor(model => model.idx)
+							    </th>
+							    <th>
+								    @Html.DisplayNameFor(model => model.name)
+							    </th>
+                                <th>
+								   Actions
+							    </th>
+						    </tr>
+					    </thead>
+					    <tbody>
+						    @foreach (var item in Model) {
+						    <tr>
+							    <td>
+								    @Html.DisplayFor(modelItem => item.idx)
+							    </td>
+							    <td>
+                                    <div class="actions_request_value">
+								        <a class="list-group-item list-group-item-action" data-bs-toggle="list" onclick="usersGroupMenuListView(@item.idx);" role="tab">@Html.DisplayFor(modelItem => item.name)</a>
+                                    </div>
+                                    <div class="actions_response_value">
+								        <input type="text" id="edit_group_name_form" class="form-control form-control-lg border-success" value="@Html.DisplayFor(modelItem => item.name)" maxlength='16'/>
+                                        <span class="edit_group_name_form_validate text-danger"></span>
+                                    </div>
+							    </td>
+                                <td class="table-action">
+                                    <div class="actions_request_icon">
+                    				    <a class="edit_group_name"><i class="align-middle" data-feather="edit-2"></i></a>
+				                        <a class="remove_group_name"><i class="align-middle" data-feather="trash"></i></a>
+                                    </div>
+                                    <div class="actions_response_icon">
+                                        <a class="confirm_group_name"><i class="align-middle" data-feather="check"></i></a>
+                                        <a class="refresh_group_name"><i class="align-middle" data-feather="refresh-cw"></i></a>
+                                    </div>
+			                    </td>
+						    </tr>
+						    }
+					    </tbody>
+				    </table>
+				    <div id="users_group_form"></div>
+                </div>
+			</div>
+		</div>
+
+		<div class="col-md-8 col-xl-9">
+			<div class="tab-content">
+				<div class="tab-pane fade show active" id="group" role="tabpanel">
+					<div class="card">
+						<div class="card-header">
+							<h5 class="card-title mb-0">@Localizer["Group menu info"]</h5>
+						</div>
+						<div class="card-body" id="users_group_menu_list"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+        <!-- BEGIN  modal -->
+		<div class="modal fade" id="sizedModalSm" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-sm" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Warning</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body m-3">
+                        <input type="hidden" id="delete_group_idx"/>
+                        <input type="hidden" id="delete_group_type"/>
+                        <h1 id="delete_group_name"></h1>
+						<p class="mb-0" id="delete_group_ment"></p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+						<button type="button" id="delete_group_button" class="btn btn-danger">Delete</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- END  modal -->
+	</div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script type="text/javascript">
+
+    var activeIdx = 0;
+
+    $('.actions_response_icon').hide();
+    $('.actions_response_value').hide();
+
+    var myModal = new bootstrap.Modal(document.getElementById('sizedModalSm'), {
+        keyboard: false
+    });
+
+    $("a[class='list-group-item list-group-item-action']").click( function() { 
+        
+        var tr = $(this).parent().parent().parent();     
+        var td = tr.children();     
+        var tdArray = new Array();   
+        $('a').removeClass('active');
+
+        td.eq(1).find('.actions_request_value').children('a').addClass('active');
+
+        activeIdx = td.eq(0).text().trim();
+        $("#copyAuthGroup").html("");
+    });
+
+    $("a[class='edit_group_name']").click( function() {    
+        
+        var tr = $(this).parent().parent().parent();
+        var td = tr.children();
+        
+        td.eq(1).find('.actions_request_value').hide();
+        td.eq(1).find('.actions_response_value').show();
+        td.eq(1).find('.actions_response_value').find('.edit_group_name_form_validate').text('');
+        
+        td.eq(1).find('.actions_response_value').children().val(td.eq(1).find('.actions_request_value').children().text());
+
+        var len = td.eq(1).find('.actions_response_value').children().val().length;
+        td.eq(1).find('.actions_response_value').children().focus();
+        td.eq(1).find('.actions_response_value').children()[0].setSelectionRange(len, len);
+
+        td.eq(1).find('.actions_response_value').children().keyup(function (e) {
+            td.eq(1).find('.actions_response_value').find('.edit_group_name_form_validate').text('');
+	        let content = $(this).val();
+ 
+            if (content.length > 16) {
+                $(this).val($(this).val().substring(0, 16));
+                td.eq(1).find('.actions_response_value').find('.edit_group_name_form_validate').text('Please enter no more than 16 characters');
+            };
+
+            if (content.length < 2) {
+                td.eq(1).find('.actions_response_value').find('.edit_group_name_form_validate').text('Name length must be between 2 and 16.');
+            };
+
+            if (content.length == 0) {
+                td.eq(1).find('.actions_response_value').find('.edit_group_name_form_validate').text('The Name field id required.');
+            };
+        });
+
+        td.eq(1).find('.actions_response_value').children().focusout(function() {
+            td.eq(1).find('.actions_response_value').find('.edit_group_name_form_validate').text('');
+        });
+
+        td.eq(2).find('.actions_request_icon').hide();
+        td.eq(2).find('.actions_response_icon').show();
+    });
+
+    $("a[class='refresh_group_name']").click( function() {    
+    
+        var tr = $(this).parent().parent().parent();    
+        var td = tr.children();
+        
+        td.eq(1).find('.actions_request_value').show();
+        td.eq(1).find('.actions_response_value').hide();
+     
+        td.eq(2).find('.actions_request_icon').show();
+        td.eq(2).find('.actions_response_icon').hide();
+    });
+
+    $("a[class='confirm_group_name']").click(function() {
+
+        var tr = $(this).parent().parent().parent();
+        var td = tr.children();
+        
+        var idx = $.trim(td.eq(0).text());
+        var group_name = $.trim(td.eq(1).find('.actions_response_value').children().val());
+        
+        if (group_name == '') {
+            td.eq(1).find('.actions_response_value').find('.edit_group_name_form_validate').text('The Name field is required.');
+            return;
+        }
+
+        if (group_name.length < 2) {
+            td.eq(1).find('.actions_response_value').find('.edit_group_name_form_validate').text('Name length must be between 2 and 16.');
+            return;
+        };
+
+        if (group_name.length > 50) {
+            td.eq(1).find('.actions_response_value').find('.edit_group_name_form_validate').text('Please enter no more than 50 characters');
+            return;
+        };
+
+        var url = "/UsersGroup/EditGroup/" + idx;
+        var formData = new FormData();
+
+        formData.append("idx", idx);
+        formData.append("name", group_name);
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            processData: false,
+            contentType: false,
+            error: function (err) {
+                toastr.error(err.statusText);
+                console.log(err);
+            }
+        }).done(function (response) {
+            console.log(response);
+
+            if (response.status === "success") {
+                toastr.success(response.message);
+                usersGroupView();
+            } else {
+                toastr.error(response.message);
+            }
+        });
+    });
+
+    $("a[class='remove_group_name']").click(function() {
+
+        var tr = $(this).parent().parent().parent();
+        var td = tr.children();
+        
+        var idx = $.trim(td.eq(0).text());
+        var group_name = $.trim(td.eq(1).find('.actions_response_value').children().val()) + ' DELETE';
+        
+        var url = "/UsersGroup/DeleteGroup/"+idx;
+        var formData = new FormData();
+
+        $('#delete_group_name').html(group_name);
+        $('#delete_group_ment').html('When a group is deleted, the menu set in the group is also deleted.');
+        $('#delete_group_idx').val(idx);
+        $('#delete_group_type').val('group');
+        
+        myModal.show();
+    });
+
+    $('#delete_group_button').click(function() {
+
+        myModal.hide();
+
+        var idx = $('#delete_group_idx').val();
+        var type = $('#delete_group_type').val();
+
+        var url = "";
+
+        if (type == 'group') { 
+            url = "/UsersGroup/DeleteGroup/"+idx;
+        } else if (type == 'group_menu') {
+            url = "/UsersGroup/DeleteGroupMenu/"+idx;
+        }
+
+        var formData = new FormData();
+        formData.append("id", idx);
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            processData: false,
+            contentType: false,
+            error: function (err) {
+                toastr.error(err.statusText);
+                console.log(err);
+            }
+        }).done(function (response) {
+            console.log(response);
+
+            if (response.status === "success") {
+
+                $("#sizedModalSm").removeClass("in");
+                $('body').removeClass('modal-open');
+                $('body').css('padding-right', '');
+                $(".modal-backdrop").remove();
+                $("#sizedModalSm").hide();
+
+                toastr.success(response.message);
+                if (type == 'group') {
+                    usersGroupView();
+                } else {
+                    usersGroupMenuListView($('#users_group_idx').val());
+                }
+            } else {
+                toastr.error(response.message);
+            }
+        });
+    });
+
+    function usersGroupFormView() {
+        $.ajax({
+            url: '/UsersGroup/UsersGroupForm',
+            type: 'POST',
+            timeout: 3000,
+            async: true,
+            data: {},
+            error: function (err) {
+                alert(
+                    "errorCode : " + err.status + "\n"
+                    + "errorText : " + err.statusText + "\n"
+                    + "Result : " + err
+                );
+            },
+            success: function (data) {
+                $("#users_group_form").html(data);
+            }
+        });
+    }
+
+    function usersGroupMenuListView(idx) {
+
+        $.ajax({
+            url: '/UsersGroup/UsersGroupMenuList/'+idx,
+            type: 'GET',
+            timeout: 3000,
+            async: true,
+            data: {},
+            error: function (err) {
+                alert(
+                    "errorCode : " + err.status + "\n"
+                    + "errorText : " + err.statusText + "\n"
+                    + "Result : " + err
+                );
+            },
+            beforeSend: function () {
+                var width = 0;
+                var height = 0;
+                var left = 0;
+                var top = 0;
+
+                width = 50;
+                height = 50;
+
+                top = ($(window).height() - height) / 2 + $(window).scrollTop();
+                left = ($(window).width() - width) / 2 + $(window).scrollLeft();
+
+                if ($("#div_ajax_load_image").length != 0) {
+                    $("#div_ajax_load_image").css({
+                        "top": top + "px",
+                        "left": left + "px"
+                    });
+                    $("#div_ajax_load_image").show();
+                }
+                else {
+                    $('body').append('<div id="div_ajax_load_image" style="position:absolute; top:' + top + 'px; left:' + left + 'px; width:' + width + 'px; height:' + height + 'px; z-index:9999; background:#f0f0f0; filter:alpha(opacity=50); opacity:alpha*0.5; margin:auto; padding:0; "><img src="/img/loaders/ajax-loader.gif" style="width:50px; height:50px;"></div>');
+                }
+            },
+            success: function (data) {
+                $("#users_group_menu_list").html(data);
+                feather.replace();
+            },
+            complete: function () {
+                $("#div_ajax_load_image").hide();
+            }
+        });
+    }
+    usersGroupFormView();
+</script>

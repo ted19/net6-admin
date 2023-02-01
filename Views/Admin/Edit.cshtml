@@ -1,0 +1,88 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@model webAdmin.ViewModels.Admin
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container-fluid p-0">
+
+	<h1 class="h3 mb-3">@Localizer["Admin edit"]</h1>
+
+	<div class="row">
+		<div class="col-md-4 col-xl-4">
+			<div class="card">
+                <div class="card-body">
+                    <div class="m-sm-4">
+                        <form asp-action="Edit">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="mb-3">
+                                <label asp-for="user_id" class="control-label"></label>
+                                <input asp-for="user_id" class="form-control form-control-lg" placeholder="Enter your id" disabled/>
+                                <span asp-validation-for="user_id" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="user_pw" class="control-label"></label>
+                                <input asp-for="user_pw" class="form-control form-control-lg" type="password" placeholder="Enter your password" />
+                                <span asp-validation-for="user_pw" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+								<label asp-for="user_pw_confirm" class="form-label"></label>
+								<input asp-for="user_pw_confirm" class="form-control form-control-lg" type="password" placeholder="Enter your Re-enter password" />
+								<span asp-validation-for="user_pw_confirm" class="text-danger"></span>
+							</div>
+                            <div class="mb-3">
+                                <label asp-for="name" class="control-label"></label>
+                                <input asp-for="name" class="form-control form-control-lg" placeholder="Enter your name" />
+                                <span asp-validation-for="name" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="dept" class="control-label"></label>
+                                <input asp-for="dept" class="form-control form-control-lg" placeholder="Enter your department" />
+                                <span asp-validation-for="dept" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="email" class="control-label"></label>
+                                <input asp-for="email" class="form-control form-control-lg" type="email" placeholder="Enter your email" />
+                                <span asp-validation-for="email" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="status" class="control-label"></label>
+                                <select asp-items="ViewBag.status_list" class="form-select" id="status" name="status"></select>
+                                <span asp-validation-for="status" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="users_group_idx" class="control-label"></label>
+                                <select asp-items="ViewBag.users_group_list" class="form-select" id="users_group_idx" name="users_group_idx">
+                                    <option value="0">@Localizer["none"]</option>
+                                </select>
+                                <span asp-validation-for="users_group_idx" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="pw_error_count" class="control-label"></label>
+                                <input asp-for="pw_error_count" class="form-control form-control-lg" placeholder="Enter your passwrod error count" />
+                                <span asp-validation-for="pw_error_count" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <label asp-for="pw_update_date" class="control-label"></label>
+                                <input asp-for="pw_update_date" asp-format="{0:yyyy-MM-dd HH:mm:ss}" class="form-control form-control-lg"/>
+                                <span asp-validation-for="pw_update_date" class="text-danger"></span>
+                            </div>
+                            <div class="mb-3">
+                                <input type="submit" value="@Localizer["Edit"]" class="btn btn-primary" />
+                            </div>
+                        </form>
+                        <div>
+                            <a asp-action="Index">@Localizer["Back to list"]</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

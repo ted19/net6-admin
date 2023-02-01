@@ -1,0 +1,88 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+@model webAdmin.ViewModels.UsersGroupMenu
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "_BlankLayout";
+}
+<form id="CreateGroupMenuForm" asp-controller="UsersGroup" asp-action="CreateGroupMenu">
+	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3">
+        <label asp-for="users_group_idx" class="form-label"></label>
+		<input asp-for="users_group_idx" name="users_group_idx" class="form-control form-control-lg" placeholder=""/>
+		<span asp-validation-for="users_group_idx" class="text-danger"></span>
+	</div>
+	<div class="mb-3">
+        <label asp-for="name" class="form-label"></label>
+		<input asp-for="name" id="menu_name" class="form-control form-control-lg" placeholder="Enter name" />
+		<span asp-validation-for="name" class="text-danger"></span>
+	</div>
+	<div class="mb-3">
+		<label asp-for="controller" class="form-label"></label>
+		<input asp-for="controller" id="controller" class="form-control form-control-lg" placeholder="Enter controller" />
+		<span asp-validation-for="controller" class="text-danger"></span>
+	</div>
+    <div class="mb-3">
+		<label asp-for="action" class="form-label"></label>
+		<input asp-for="action" id="action" class="form-control form-control-lg" placeholder="Enter action" />
+		<span asp-validation-for="action" class="text-danger"></span>
+	</div>
+    <div class="mb-3">
+		<label asp-for="allow_type" class="form-label"></label>
+        <select asp-for="allow_type" id="allow_type" asp-items="Model.allow_types" class="form-select" style="width:auto;"></select>
+		<span asp-validation-for="allow_type" class="text-danger"></span>
+	</div>
+	<div class="text-center mt-3">
+		<input type="button" name="AddGroupMenu" value="@Localizer["Add group menu"]" class="btn btn-lg btn-primary" />
+	</div>
+</form>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script type="text/javascript">
+
+    $("#allow_type option:eq(0)").replaceWith("<option value='r'>@Localizer["Read"]</option>");
+    $("#allow_type option:eq(1)").replaceWith("<option value='r'>@Localizer["Write"]</option>");
+
+    $("input[name='users_group_idx']").val($('#users_group_idx').val());
+    $("input[name='users_group_idx']").attr("disabled",true); 
+
+    $("input[name='AddGroupMenu']").on("click", function () {
+
+        var url = $("#CreateGroupMenuForm").attr("action");
+
+        var myForm = document.getElementById('CreateGroupMenuForm');
+        var formData = new FormData(myForm);
+
+        formData.append("users_group_idx", $('#users_group_idx').val());
+        formData.append("name", $("#menu_name").val());
+        formData.append("controller", $("#controller").val());
+        formData.append("action", $("#action").val());
+        formData.append("allow_type", $("#allow_type").val());
+
+        console.log(formData);
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: formData,
+            processData: false,
+            contentType: false,
+            error: function (err) {
+                toastr.error(err.statusText);
+                console.log(err);
+            }
+        }).done(function (response) {
+            if (response.status === "success") {
+                toastr.success(response.message);
+                usersGroupMenuListView($('#users_group_idx').val());
+            } else {
+                toastr.error(response.message);
+            }
+        });
+    });
+</script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

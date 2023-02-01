@@ -1,0 +1,7 @@
+﻿[*.cs]
+
+# CS0114: 멤버가 상속된 멤버를 숨깁니다. override 키워드가 없습니다.
+dotnet_diagnostic.CS0114.severity = suggestion
+
+# CS8602: null 가능 참조에 대한 역참조입니다.
+dotnet_diagnostic.CS8602.severity = none

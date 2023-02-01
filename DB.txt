@@ -1,0 +1,87 @@
+CREATE DATABASE `cstool` /*!40100 DEFAULT CHARACTER SET utf8mb4 */;
+
+CREATE TABLE `__efmigrationshistory` (
+  `MigrationId` varchar(150) NOT NULL,
+  `ProductVersion` varchar(32) NOT NULL,
+  PRIMARY KEY (`MigrationId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `admin_log` (
+  `idx` int(11) NOT NULL AUTO_INCREMENT COMMENT '키값',
+  `user_idx` int(11) NOT NULL COMMENT '유저번호',
+  `user_id` varchar(20) NOT NULL COMMENT '유저아이디',
+  `user_ip` varchar(20) NOT NULL COMMENT '유저아이피',
+  `controller` varchar(20) NOT NULL COMMENT '메뉴',
+  `action` varchar(30) NOT NULL COMMENT '행동',
+  `parameter` varchar(1000) DEFAULT NULL COMMENT '파라미터',
+  `before_data` varchar(1000) DEFAULT NULL,
+  `after_data` varchar(1000) DEFAULT NULL,
+  `regist_date` datetime NOT NULL COMMENT '기록일자',
+  PRIMARY KEY (`idx`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='운영툴 어드민 로그';
+
+CREATE TABLE `categories` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` longtext NOT NULL,
+  `DisplayOrder` int(11) NOT NULL,
+  `CreatedDateTime` datetime(6) NOT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `login_log` (
+  `idx` int(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_idx` int(20) unsigned NOT NULL,
+  `user_id` varchar(50) NOT NULL COMMENT '유저아이디',
+  `login_ip` varchar(20) NOT NULL,
+  `log_date` datetime NOT NULL,
+  `success_yn` varchar(2) NOT NULL DEFAULT 'Y',
+  PRIMARY KEY (`idx`),
+  KEY `idx01` (`user_idx`,`success_yn`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `pw_log` (
+  `idx` int(11) NOT NULL AUTO_INCREMENT,
+  `user_idx` int(11) NOT NULL,
+  `user_id` varchar(50) NOT NULL COMMENT '유저아이디',
+  `user_pw` varchar(255) NOT NULL COMMENT '유저패스워드',
+  `create_date` varchar(255) NOT NULL COMMENT '패스워드 생성 날짜',
+  PRIMARY KEY (`idx`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COMMENT='패스워드 로그';
+
+CREATE TABLE `users` (
+  `idx` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` varchar(50) NOT NULL COMMENT '아이디',
+  `user_pw` varchar(255) NOT NULL COMMENT '패스워드',
+  `name` varchar(50) NOT NULL COMMENT '이름',
+  `dept` varchar(50) NOT NULL COMMENT '부서',
+  `email` varchar(255) DEFAULT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0:인증전, 10:일반사용자, 20:탈퇴, 21:차단',
+  `create_date` datetime NOT NULL COMMENT '가입 날짜',
+  `block_date` datetime DEFAULT NULL COMMENT '차단 일자',
+  `block_reason` varchar(50) DEFAULT 'none' COMMENT '차단 사유 (none : 없음, long-term unconnected : 장기미접속)',
+  `pw_update_date` datetime NOT NULL COMMENT '비밀번호 업데이트 날짜',
+  `pw_error_count` tinyint(4) NOT NULL DEFAULT '0' COMMENT '비밀번호 오류 횟수',
+  `users_group_idx` int(11) NOT NULL DEFAULT '0' COMMENT '속한 그룹 없을때는 기본 그룹 (1)',
+  PRIMARY KEY (`idx`),
+  UNIQUE KEY `user_id_UNIQUE` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='회원';
+
+CREATE TABLE `users_group` (
+  `idx` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL COMMENT '그룹 이름',
+  `create_date` datetime NOT NULL COMMENT '생성 날짜',
+  PRIMARY KEY (`idx`),
+  UNIQUE KEY `name_UNIQUE` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='유저 그룹';
+
+CREATE TABLE `users_group_menu` (
+  `idx` int(11) NOT NULL AUTO_INCREMENT,
+  `users_group_idx` int(11) NOT NULL COMMENT '그룹 idx',
+  `name` varchar(50) NOT NULL COMMENT '메뉴 이름',
+  `controller` varchar(50) NOT NULL,
+  `action` varchar(50) NOT NULL,
+  `allow_type` char(2) NOT NULL COMMENT '읽기(R), 쓰기(W)',
+  `create_date` datetime NOT NULL COMMENT '생성일',
+  PRIMARY KEY (`idx`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='그룹 메뉴';
+

@@ -1,0 +1,38 @@
+﻿@model DiffPlex.DiffBuilder.Model.SideBySideDiffModel
+
+@{
+    Layout = "_BlankLayout";
+}
+
+<link class="js-stylesheet" href="~/css/site.css" rel="stylesheet">
+
+<div class="container-fluid p-0">
+	<div class="row">
+		<div class="col-md-12 col-xl-12">
+			<div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Parameter</h5>
+                    @ViewBag.parameter
+                </div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="diffBox">
+    <div id="leftPane">
+        <div class="diffHeader">Old Text</div>
+
+        <!--@await Html.PartialAsync("DiffPane", Model.OldText) -->
+        @await Html.PartialAsync("DiffPane", Model.OldText)
+    </div>
+    <div id="rightPane">
+        <div class="diffHeader">New Text</div>
+        <!--@await Html.PartialAsync("DiffPane", Model.NewText) -->
+        @await Html.PartialAsync("DiffPane", Model.NewText)
+    </div>
+    <div class="clear">
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/site.js"></script>
