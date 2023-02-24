@@ -1,12 +1,18 @@
-# webAdmin
+.NET 6 Admin
+===============================
+_P.S This Admin Tool Project!_
 
-닷넷코어 6 기반 
-게임 운영툴 기본 webAdmin
+## 1. Technologies and tools used:
+* .Net 6
+* Mysql 5
+* Bootstrap 5
+* Jquery 3.6.3
+* Visual Studio 2022
 
-주요기능 : 
-회원가입, 로그인, 로그아웃, ISMS심사 규격에 맞는 회원관리, 회원 권한 관리
+## 2. 주요기능: 
+* 회원가입, 로그인, ISMS심사 규격, 권한 관리
 
-# 참조
+## 3. 참조:
 - 닷넷코어 메뉴얼
 >https://docs.microsoft.com/ko-kr/aspnet/core/introduction-to-aspnet-core?view=aspnetcore-6.0
 
