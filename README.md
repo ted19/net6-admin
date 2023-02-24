@@ -12,6 +12,7 @@ _P.S This Admin Tool Project!_
 ## 2. 주요기능: 
 * 회원가입, 로그인, ISMS심사 규격, 권한 관리
 * Bootstrap 5 Admin Theme, 다국어 처리, 메일링
+* LogDiff
 
 ## 3. 참조:
 - 닷넷코어 메뉴얼
