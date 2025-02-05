@@ -1,32 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "E:\\project\\Dev\\GIT\\webAdmin\\webAdmin.csproj": {}
+    "C:\\Users\\dongh\\OneDrive\\문서\\GitHub\\net6-admin\\webAdmin.csproj": {}
   },
   "projects": {
-    "E:\\project\\Dev\\GIT\\webAdmin\\webAdmin.csproj": {
+    "C:\\Users\\dongh\\OneDrive\\문서\\GitHub\\net6-admin\\webAdmin.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\project\\Dev\\GIT\\webAdmin\\webAdmin.csproj",
+        "projectUniqueName": "C:\\Users\\dongh\\OneDrive\\문서\\GitHub\\net6-admin\\webAdmin.csproj",
         "projectName": "webAdmin",
-        "projectPath": "E:\\project\\Dev\\GIT\\webAdmin\\webAdmin.csproj",
-        "packagesPath": "C:\\Users\\Vgam\\.nuget\\packages\\",
-        "outputPath": "E:\\project\\Dev\\GIT\\webAdmin\\obj\\",
+        "projectPath": "C:\\Users\\dongh\\OneDrive\\문서\\GitHub\\net6-admin\\webAdmin.csproj",
+        "packagesPath": "C:\\Users\\dongh\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\dongh\\OneDrive\\문서\\GitHub\\net6-admin\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Vgam\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\dongh\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "net6.0"
+          "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -34,65 +32,70 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "dependencies": {
             "DiffPlex": {
               "target": "Package",
-              "version": "[1.7.1, )"
+              "version": "[1.7.2, )"
             },
             "MailKit": {
               "target": "Package",
-              "version": "[3.3.0, )"
+              "version": "[2.5.1, )"
             },
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[6.0.7, )"
+              "version": "[8.0.12, )"
             },
             "Microsoft.AspNetCore.HttpOverrides": {
               "target": "Package",
-              "version": "[2.2.0, )"
+              "version": "[2.3.0, )"
             },
             "Microsoft.AspNetCore.Localization": {
               "target": "Package",
-              "version": "[2.2.0, )"
+              "version": "[2.3.0, )"
             },
             "Microsoft.AspNetCore.Mvc.Localization": {
               "target": "Package",
-              "version": "[2.2.0, )"
+              "version": "[2.3.0, )"
             },
             "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": {
               "target": "Package",
-              "version": "[6.0.7, )"
+              "version": "[8.0.12, )"
             },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[6.0.7, )"
+              "version": "[8.0.12, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[6.0.7, )"
+              "version": "[8.0.12, )"
             },
             "Microsoft.EntityFrameworkCore.Sqlite": {
               "target": "Package",
-              "version": "[6.0.7, )"
+              "version": "[8.0.12, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[6.0.7, )"
+              "version": "[8.0.12, )"
             },
             "Microsoft.Extensions.Identity.Core": {
               "target": "Package",
-              "version": "[6.0.7, )"
+              "version": "[8.0.12, )"
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
-              "version": "[6.0.7, )"
+              "version": "[9.0.0, )"
             },
             "MySql.Data": {
               "target": "Package",
@@ -104,19 +107,19 @@
             },
             "OrchardCore.Localization.Abstractions": {
               "target": "Package",
-              "version": "[1.5.0, )"
+              "version": "[2.1.5, )"
             },
             "OrchardCore.Localization.Core": {
               "target": "Package",
-              "version": "[1.5.0, )"
+              "version": "[2.1.5, )"
             },
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
-              "version": "[6.0.2, )"
+              "version": "[8.0.2, )"
             },
             "System.Linq.Dynamic.Core": {
               "target": "Package",
-              "version": "[1.2.21, )"
+              "version": "[1.6.0, )"
             }
           },
           "imports": [
@@ -125,7 +128,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -137,7 +141,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.405/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

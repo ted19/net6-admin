@@ -793,7 +793,7 @@ namespace webAdmin.Controllers
             return Json(true);
         }
 
-        public async Task<IActionResult> SignOut()
+        public async Task<IActionResult> LogOut()
         {
             await HttpContext.SignOutAsync();
             return Redirect("/Users/SignIn");

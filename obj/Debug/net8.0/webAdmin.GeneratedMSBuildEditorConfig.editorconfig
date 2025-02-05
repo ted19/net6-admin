@@ -1,0 +1,191 @@
+is_global = true
+build_property.TargetFramework = net8.0
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = webAdmin
+build_property.RootNamespace = webAdmin
+build_property.ProjectDir = C:\Users\dongh\OneDrive\문서\GitHub\net6-admin\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = true
+build_property.MSBuildProjectDirectory = C:\Users\dongh\OneDrive\문서\GitHub\net6-admin
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Files/MailTemplates/welcome.cshtml]
+build_metadata.AdditionalFiles.TargetPath = RmlsZXNcTWFpbFRlbXBsYXRlc1x3ZWxjb21lLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Admin/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Admin/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Admin/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Admin/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Categories/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmllc1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Categories/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmllc1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Categories/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmllc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Categories/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmllc1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Categories/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2F0ZWdvcmllc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Diff/Contact.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlmZlxDb250YWN0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Diff/Diff.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlmZlxEaWZmLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Diff/DiffBar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlmZlxEaWZmQmFyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Diff/DiffLine.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlmZlxEaWZmTGluZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Diff/DiffPane.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlmZlxEaWZmUGFuZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Diff/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlmZlxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Home/NoPermission.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxOb1Blcm1pc3Npb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Log/AdminLogData.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9nXEFkbWluTG9nRGF0YS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Log/AdminLogList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9nXEFkbWluTG9nTGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Log/DiffLine.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9nXERpZmZMaW5lLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Log/DiffPane.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9nXERpZmZQYW5lLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Log/LoginLogList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9nXExvZ2luTG9nTGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/UsersGroup/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNHcm91cFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/UsersGroup/UsersGroupForm.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNHcm91cFxVc2Vyc0dyb3VwRm9ybS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/UsersGroup/UsersGroupList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNHcm91cFxVc2Vyc0dyb3VwTGlzdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/UsersGroup/UsersGroupMenuForm.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNHcm91cFxVc2Vyc0dyb3VwTWVudUZvcm0uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/UsersGroup/UsersGroupMenuList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNHcm91cFxVc2Vyc0dyb3VwTWVudUxpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Users/ChangePassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcQ2hhbmdlUGFzc3dvcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Users/ResetPassword.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcUmVzZXRQYXNzd29yZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Users/SignIn.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcU2lnbkluLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Users/SignUp.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcU2lnblVwLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Shared/_BasicLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9CYXNpY0xheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = b-alofm9avpa
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Shared/_BlankLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9CbGFua0xheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = b-egkeb0iirz
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-rgvuoy8g8y
+
+[C:/Users/dongh/OneDrive/문서/GitHub/net6-admin/Views/Shared/_Notification.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Ob3RpZmljYXRpb24uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-fzg2w9eao7

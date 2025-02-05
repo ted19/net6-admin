@@ -85,3 +85,5 @@ CREATE TABLE `users_group_menu` (
   PRIMARY KEY (`idx`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='그룹 메뉴';
 
+INSERT INTO `users_group` VALUES (1,'관리자','2025-02-06 00:53:41');
+INSERT INTO `users_group_menu` VALUES (1,1,'관리자>관리자 관리','Admin','Index','w','2025-02-06 00:55:42'),(2,1,'관리자>권한 그룹','UsersGroup','Index','w','2025-02-06 00:58:10'),(3,1,'관리자>권한 그룹>그룹 등록','UsersGroup','CreateGroup','w','2025-02-06 01:03:01'),(4,1,'관리자>권한 그룹>그룹 메뉴 등록','UsersGroup','CreateGroupMenu','w','2025-02-06 01:03:57'),(5,1,'관리자>관리자 관리>수정','Admin','Edit','w','2025-02-06 01:06:10'),(6,1,'관리자>관리자 관리>삭제','Admin','Delete','w','2025-02-06 01:07:14'),(7,1,'관리자>관리자 관리>등록','Admin','Create','w','2025-02-06 01:11:53'),(8,1,'관리자>권한 그룹>그룹 메뉴 수정','UsersGroup','EditGroupMenu','w','2025-02-06 01:11:58');

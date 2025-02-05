@@ -1,10 +1,10 @@
-.NET 6 Admin
+.NET 8 Admin
 ===============================
 _P.S This Admin Tool Project!_
 
 ## 1. Technologies and tools used:
-* .Net 6
-* Mysql 5
+* .Net 8
+* Mysql 8
 * Bootstrap 5
 * Jquery 3.6.3
 * Visual Studio 2022

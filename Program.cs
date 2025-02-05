@@ -12,6 +12,7 @@ using DiffPlex.DiffBuilder;
 using static webAdmin.Controllers.ControllerBase;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddHttpLogging(o => { });
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
